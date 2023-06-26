@@ -2,9 +2,11 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
   var tab = tabs[0];
   if (!tab.url.includes("open.spotify.com")) {
     descriptionTxt.innerHTML = "Invalid URL. Go to <a href='https://open.spotify.com/'>open.spotify.com</a>";
+    chart.style.display = "none";
   }
   else {
     descriptionTxt.innerText = "Loading...";
+    window.onload = onWindowLoad();
   }
 });
 
@@ -12,7 +14,9 @@ function onWindowLoad() {
   const descriptionTxt = document.getElementById("descriptionTxt");
   const chart = document.getElementById("chart");
 
-  setTimeout(function () {
+  chrome.storage.sync.get({ delayInSeconds: 2 }, function(result) {
+    var delayInSeconds = result.delayInSeconds;
+    setTimeout(function() {
     let message = document.querySelector("#message");
 
     chrome.tabs
@@ -99,16 +103,22 @@ function onWindowLoad() {
         message.innerText =
           "There was an error injecting script: \n" + error.message;
       });
-  }, 2000); // Delay the execution to let the page load after the zoom out
+      // Your existing code here
+    }, delayInSeconds * 1000);
+  }); // Delay the execution to let the page load after the zoom out
   
   chrome.runtime.sendMessage({ action: "changeZoom", zoomFactor: 0.25 });
 
-  setTimeout(function () {
+  chrome.storage.sync.get({ delayInSeconds: 2 }, function(result) {
+    var delayInSeconds = result.delayInSeconds;
+    setTimeout(function() {
     chrome.runtime.sendMessage({ action: "changeZoom", zoomFactor: 1 });
-  }, 2000);
+    // Your existing code here
+  }, delayInSeconds * 1000);
+});
 }
 
-window.onload = onWindowLoad; // Invoke when browser has finished loading the DOM
+//window.onload = onWindowLoad; // Invoke when browser has finished loading the DOM
 
 function DOMtoString(selector) {
   if (selector) {
