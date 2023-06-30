@@ -14,7 +14,7 @@ To use the extension, simply open [Spotify](https://open.spotify.com/) and navig
 
 ## Limitations
 
-- The extension heavily depends on the internal HTML structure of the Spotify website, so any update to the interface may could make this extension unusable.
+- The extension heavily depends on the internal HTML structure of the Spotify website, so any update to the interface could make this extension unusable.
 - Since Spotify loads content dynamically and removes the tracks outside of the viewport, this extension can only analyze a maximum of ~70 songs.
 - To be able to analyze as much songs as possible, the extension automatically decreases the zoom of the page temporarily to 25% (the absolute minimum in the Chrome browser).
 
